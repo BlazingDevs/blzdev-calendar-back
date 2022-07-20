@@ -1,5 +1,5 @@
 from django.db import models
-from api.Schedules.models import Schedules
+from Schedules.models import Schedules
 #from api.User.models import User
 class dev_logs(models.Model):
 	schedule_id = models.ForeignKey(Schedules, on_delete=models.CASCADE) # 일정 id

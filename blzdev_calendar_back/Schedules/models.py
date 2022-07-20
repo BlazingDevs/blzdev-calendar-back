@@ -1,5 +1,5 @@
 from django.db import models
-from api.Workspaces.models import Workspaces
+from Workspaces.models import Workspaces
 
 class Schedules(models.Model):
 	schedule_name = models.CharField(max_length=100) # 일정 이름
