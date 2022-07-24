@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'dev_log',
     'Schedules',
     'Workspaces',
+    'daily_schedule',
 ]
 
 MIDDLEWARE = [
