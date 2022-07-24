@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from .secret import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u=6^71z$$*y2(4y-eg@76u&2wavw%xktg=b@&4ctmuy=qnr^ev'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'dev_log',
     'Schedules',
     'Workspaces',
+    'daily_schedule',
 ]
 
 MIDDLEWARE = [
@@ -76,16 +78,7 @@ WSGI_APPLICATION = 'blzdev_calendar_back.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blzdev_db',
-        'USER': 'admin',
-        'PASSWORD': 'test1234',
-        'HOST': 'localhost',
-        'PORT': ''
-    }
-}
+
 
 
 # Password validation
