@@ -42,7 +42,28 @@ INSTALLED_APPS = [
     'Schedules',
     'Workspaces',
     'daily_schedule',
+    'Users',
+
+    # CORS
+	'corsheaders',
+	# DRF
+	'rest_framework',
+	'rest_framework.authtoken',
+	# rest_auth
+	'rest_auth',
+	# knox
+	'knox',
 ]
+
+#REST FRAMEWORK
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+		'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+} 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,7 +73,23 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #cors_header
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+# CORS 설정 - whitelist 에 추가된 주소 접근 허용
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000' ,'http://localhost:3000']
+CORS_ALLOW_CREDENTIALS = True
+
+# 실제 요청에 허용되는 HTTP 동사 리스트
+CORS_ALLOW_METHODS = (  
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)
 
 ROOT_URLCONF = 'blzdev_calendar_back.urls'
 
