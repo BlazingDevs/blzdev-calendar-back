@@ -11,18 +11,25 @@ class DevLogSerializer(serializers.ModelSerializer):
     schedule_id = serializers.IntegerField(write_only = True)
     class Meta:
         model = dev_logs
-        fields = ('schedule_id','content')
-        # write_only_fields = ('schedule_id','content')
-        # write_only_fields = ('user_id','schedule_id','content')
-        # read_onlyfields = ('user_id','content')
+        fields = ('id','schedule_id','content')
+        
     def create(self,validated_data):
-        schedule_id = int(validated_data['schedule_id'])
+        schedule_id = int(validated_data.pop('schedule_id'))
         AllObjects = Schedules.objects.all()
         if AllObjects.filter(id = schedule_id).exists():
-            obj = dev_logs.objects.create(**validated_data)
+            schedule = AllObjects.get(id = schedule_id)
+            obj = dev_logs.objects.create(**validated_data,schedule_id = schedule)
             return obj
         else:
             raise AttributeError
+
+    def update(self,instance, validated_data):
+        if instance.schedule_id.id != int(validated_data['schedule_id']): #content외에 다른 정보 수정 시
+            raise AttributeError
+        else:
+            instance.content = validated_data['content']
+            instance.save()
+            return instance
 
         
 
