@@ -22,7 +22,7 @@ def DevLogs(request):
                 ResponseData = {"error_code": 404, "error_messsage": f'no schedule_id {schedule_id} in DB', "data" : ""}
             else:
                 serializer = DevLogSerializer(AllObjects.filter(schedule_id = schedule_id),many=True)
-                ResponseData = {"error_code": 0,"error_message":"", "data" : serializer.data}
+                ResponseData = {"error_code": 0, "error_message":"", "data" : serializer.data}
 
     elif request.method == 'POST': #url /dev_logs
         data = JSONParser().parse(request)
@@ -36,7 +36,7 @@ def DevLogs(request):
                 ResponseData = {"error_code": 0,"error_message":"", "data" : serializer.data}
             except AttributeError:  #생성 실패시
                 ResponseData = {"error_code": 404, "error_messsage": "no schedule id in DB", "data" : ""}
-        
+
     else: # GET, POST 외의 request method
         ResponseData = {"error_code": 404, "error_messsage": "unvalid request method", "data" : ""}
 

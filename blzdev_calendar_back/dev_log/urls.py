@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('',views.DevLogs),
-    path('/<int:pk>',views.DevLog),
+    path('<int:pk>/',views.DevLog),
 ]

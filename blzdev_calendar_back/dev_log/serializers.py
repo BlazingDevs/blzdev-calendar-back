@@ -14,8 +14,9 @@ class DevLogSerializer(serializers.ModelSerializer):
         fields = ('id','schedule_id','content')
         
     def create(self,validated_data):
-        schedule_id = int(validated_data.pop('schedule_id'))
+        schedule_id = validated_data.pop('schedule_id')
         AllObjects = Schedules.objects.all()
+        
         if AllObjects.filter(id = schedule_id).exists():
             schedule = AllObjects.get(id = schedule_id)
             obj = dev_logs.objects.create(**validated_data,schedule_id = schedule)
