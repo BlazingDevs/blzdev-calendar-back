@@ -59,12 +59,14 @@ INSTALLED_APPS = [
 # REST FRAMEWORK
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    # # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated',
     ],
+
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
 }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -117,6 +119,12 @@ WSGI_APPLICATION = 'blzdev_calendar_back.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 
+<< << << < HEAD
+== == == =
+# Auth user model
+AUTH_USER_MODEL = 'Users.User'
+
+>>>>>> > origin/dev
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
