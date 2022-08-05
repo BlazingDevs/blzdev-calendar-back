@@ -13,7 +13,7 @@ def daily_schedule(request):
             ResponseData = {"error_code" : 404, "error_message" : "there is no date in query", "data" : ""}
         else:
             date = request.GET['date']
-            ScheduleQuerySet = Schedules.objects.filter(start_date = date)
+            ScheduleQuerySet = Schedules.objects.filter(date = date)
             serializer = ScheduleSerializer(ScheduleQuerySet,many=True)
-            ResponseData = {"error_code" : 200, "error_message" : "", "data" : serializer.data}
+            ResponseData = {"error_code" : 200, "error_message" : "", "data" : {"count" : len(ScheduleQuerySet), "schedule" : serializer.data}}
     return JsonResponse(ResponseData, status=200)
