@@ -19,7 +19,7 @@ def DevLogs(request):
             schedule_id = request.GET['schedule_id']
             LogQuerySet = dev_logs.objects.filter(schedule_id = schedule_id)
             serializer = DevLogSerializer(LogQuerySet,many=True)
-            ResponseData = {"error_code": 0, "error_message":"", "data" : serializer.data}
+            ResponseData = {"error_code": 0, "error_message":"", "data" : {"count" : len(LogQuerySet),"log" :serializer.data}}
 
     elif request.method == 'POST': #url /dev_logs 
         data = JSONParser().parse(request)
