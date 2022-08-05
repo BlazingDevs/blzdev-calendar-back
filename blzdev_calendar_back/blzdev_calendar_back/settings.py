@@ -118,13 +118,9 @@ WSGI_APPLICATION = 'blzdev_calendar_back.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-
-<< << << < HEAD
-== == == =
 # Auth user model
 AUTH_USER_MODEL = 'Users.User'
 
->>>>>> > origin/dev
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 

@@ -9,4 +9,4 @@ class Schedules(models.Model):
     end_date = models.DateField()  # 종료 날짜
     time = models.FloatField()  # 진행 시간
     users = models.ManyToManyField(
-        "User", related_name="User_Schedule")  # Users-Schedules 다대다
+        User, related_name="User_Schedule")  # Users-Schedules 다대다
