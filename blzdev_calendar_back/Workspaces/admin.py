@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import Workspaces, UserWorkspaces
 
-# Register your models here.
+admin.site.register(Workspaces)
+admin.site.register(UserWorkspaces)
