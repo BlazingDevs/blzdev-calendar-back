@@ -15,15 +15,14 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('workspace/',include('Workspaces.urls')),
-    path('schedules/',include('Schedules.urls')),
-    path('dev_logs/',include('dev_log.urls')),
-    path('daily_schedule/',include('daily_schedule.urls')),
-    path('user/',include('Users.urls')),
+    path('workspace/', include('Workspaces.urls')),
+    path('schedules/', include('Schedules.urls')),
+    path('dev_logs/', include('dev_log.urls')),
+    path('daily_schedule/', include('daily_schedule.urls')),
+    path('user/', include('Users.urls')),
 ]
-

@@ -1,9 +1,17 @@
 from django.db import models
 from Workspaces.models import Workspaces
+from Users.models import User
+
 
 class Schedules(models.Model):
-	schedule_name = models.CharField(max_length=100) # 일정 이름
-	workspace_id = models.ForeignKey(Workspaces, on_delete = models.CASCADE) # 워크스페이스 고유 ID
-	start_date = models.CharField(max_length=10) # 시작 날짜
-	end_date = models.CharField(max_length=10) # 종료 날짜
-	time = models.FloatField() # 진행 시간
+    # id 자동 생성
+    schedule_name = models.CharField(max_length=100)  # 일정 이름
+    date = models.DateField(null=True)  # 날짜
+    time = models.FloatField(null=True)  # 진행 시간
+    workspace_id = models.ForeignKey(
+        Workspaces, on_delete=models.CASCADE)  # 워크스페이스 고유 ID
+    users = models.ManyToManyField(
+        User, related_name="User_Schedule")  # Users-Schedules 다대다
+
+    def __str__(self):
+        return f"{self.id}"
