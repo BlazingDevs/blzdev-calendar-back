@@ -30,7 +30,11 @@ def put_schedule_detail(request, schedule_id=None):
     response_data = {'error_code': -1, 'error_message': None, 'data': None}
 
     if request.method == 'PUT':
-
+        serializer = SchedulesSerializer(schedule, data = request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            
         response_data['error_code'] = 200
         response_data['error_message'] = 'put schedule'
 
