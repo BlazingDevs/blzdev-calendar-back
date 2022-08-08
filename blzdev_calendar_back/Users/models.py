@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+
 class Manager(BaseUserManager):
+    # def create_user(self, user_id, user_name, password=None):
     def create_user(self, user_id, user_name, password=None):
-            
-        user=self.model(
+        user = self.model(
             user_id=user_id,
             user_name=user_name,
         )
@@ -29,8 +30,8 @@ class Manager(BaseUserManager):
 
 class User(AbstractBaseUser):
     user_primary_id = models.AutoField(primary_key=True)
-    user_id=models.CharField(max_length=30, unique=True)
-    user_name=models.CharField(max_length=100)
+    user_id = models.CharField(max_length=30, unique=True)
+    user_name = models.CharField(max_length=100)
 
     objects = Manager()
 
@@ -42,6 +43,7 @@ class User(AbstractBaseUser):
     objects = Manager()
 
     USERNAME_FIELD = 'user_id'
+
     REQUIRED_FIELDS = ['user_name']
 
     def __str__(self):

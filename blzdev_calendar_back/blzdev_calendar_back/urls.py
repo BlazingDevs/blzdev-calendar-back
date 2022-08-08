@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 
 
 urlpatterns = [
@@ -26,4 +26,3 @@ urlpatterns = [
     path('daily_schedule/',include('daily_schedule.urls')),
     path('user/',include('Users.urls')),
 ]
-
