@@ -7,8 +7,7 @@ from Schedules.serializers import SchedulesSerializer
 
 
 @csrf_exempt
-# @api_view(['GET', 'PUT', 'DELETE'])
-@api_view(['GET'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def schedule_detail(request, schedule_id=None):
     schedule = get_object_or_404(Schedules, id=schedule_id)
     response_data = {'error_code': -1, 'error_message': None, 'data': None}
@@ -17,39 +16,22 @@ def schedule_detail(request, schedule_id=None):
         response_data['error_message'] = 'get schedule'
         response_data['data'] = SchedulesSerializer(schedule).data
 
-    else:
-        response_data['error_code'] = 400
-        response_data['error_message'] = 'unvalid request method'
+    elif request.method == 'PUT':
+        serializer = SchedulesSerializer(schedule, data=request.data)
 
-    return Response(response_data)
-
-
-@api_view(['PUT'])
-def put_schedule_detail(request, schedule_id=None):
-    schedule = get_object_or_404(Schedules, id=schedule_id)
-    response_data = {'error_code': -1, 'error_message': None, 'data': None}
-
-    if request.method == 'PUT':
-        serializer = SchedulesSerializer(schedule, data = request.data)
-        
         if serializer.is_valid():
             serializer.save()
-            
+
         response_data['error_code'] = 200
         response_data['error_message'] = 'put schedule'
 
-    return Response(response_data)
-
-
-@api_view(['DELETE'])
-def delete_schedule_detail(request, schedule_id=None):
-    schedule = get_object_or_404(Schedules, id=schedule_id)
-    response_data = {'error_code': -1, 'error_message': None, 'data': None}
-
-    if request.method == 'DELETE':
+    elif request.method == 'DELETE':
         schedule.delete()
 
         response_data['error_code'] = 200
         response_data['error_message'] = 'Delete schedule'
+    else:
+        response_data['error_code'] = 400
+        response_data['error_message'] = 'unvalid request method'
 
     return Response(response_data)
