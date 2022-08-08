@@ -27,10 +27,13 @@ class Manager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 class User(AbstractBaseUser):
     user_primary_id = models.AutoField(primary_key=True)
     user_id = models.CharField(max_length=30, unique=True)
     user_name = models.CharField(max_length=100)
+
+    objects = Manager()
 
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
