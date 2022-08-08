@@ -15,13 +15,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Schedules',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('schedule_name', models.CharField(max_length=100)),
-                ('start_date', models.CharField(max_length=10)),
-                ('end_date', models.CharField(max_length=10)),
+                ('date', models.DateField(null=True)),
                 ('time', models.FloatField()),
-                ('workspace_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Workspaces.workspaces')),
-                # ('users', models.ManyToManyField(blank=True, to='Users.user')),
+                ('workspace_id', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='Workspaces.workspaces')),
+                ('users', models.ManyToManyField(blank=True, to='Users.user')),
             ],
         ),
     ]
