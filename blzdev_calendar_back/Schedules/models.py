@@ -10,8 +10,11 @@ class Schedules(models.Model):
     time = models.FloatField(null=True)  # 진행 시간
     workspace_id = models.ForeignKey(
         Workspaces, on_delete=models.CASCADE)  # 워크스페이스 고유 ID
-    users = models.ManyToManyField(
-        User, related_name="User_Schedule")  # Users-Schedules 다대다
 
     def __str__(self):
         return f"{self.id}"
+
+
+class User_Schedule(models.Model):
+    user = models.ForeignKey('Users.User', on_delete=models.CASCADE)
+    schedule = models.ForeignKey('Schedules', on_delete=models.CASCADE)

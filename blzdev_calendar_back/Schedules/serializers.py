@@ -1,24 +1,34 @@
 from rest_framework import serializers
-from Schedules.models import Schedules
+from Schedules.models import Schedules, User_Schedule
 from Users.models import User
 
 
+class ScheduleMemberSerializer(serializers.ModelSerializer):
+    user_id = serializers.ReadOnlyField(source='user_primary_id')
+
+    class Meta:
+        model = User
+        fields = ('user_id', 'user_name')
+
+
 class SchedulesSerializer(serializers.ModelSerializer):
-    # count_members = users.objects.annotate(dep_count=Count('employee')).count()
+    # Schedules 모델에 없는 새로운 members field를 추가함.
+    members = serializers.SerializerMethodField()
+
     class Meta:
         model = Schedules
-        exclude = ('users', )
-        # fields = '__all__'
+        fields = '__all__'
+        fields = ('id', 'schedule_name', 'workspace_id',
+                  'date', 'time', 'members')
 
-# class ScheduleMemberSerializer(serializers.ModelSerializer):
-#     def get_members(self,instance):
-#         result = dict()
-    
-#         user_schedule = UserWorkspaces.objects.filter(workspace__id=instance.id).values_list('user__user_primary_id',flat=True)
-#         result['count'] = users.count()
-#         result['member'] = WorkspaceUserSerializer(User.objects.filter(user_primary_id__in=user_schedule),many=True).data
-        
-#         return result
-    
-#     schedule_id = serializers.ReadOnlyField(source='id')
-#     members = serializers.SerializerMethodField()
+    def get_members(self, obj):
+        members = {}
+
+        user_schedule = User_Schedule.objects.filter(
+            schedule_id=obj.id).values_list('user_id', flat=True)
+
+        members['count'] = user_schedule.count()
+        members['member'] = ScheduleMemberSerializer(
+            User.objects.filter(user_primary_id__in=user_schedule), many=True).data
+
+        return members

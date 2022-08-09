@@ -1,11 +1,6 @@
-from rest_framework.decorators import api_view
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from Schedules.models import *
 from Schedules.serializers import SchedulesSerializer
 from rest_framework import generics, mixins
-
 
 class ScheduleDetailAPI(generics.GenericAPIView, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
     serializer_class = SchedulesSerializer
