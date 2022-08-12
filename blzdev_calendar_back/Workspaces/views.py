@@ -54,19 +54,27 @@ def workspace_detail(request,pk=None):
     if Workspaces.objects.filter(id=pk).exists():
         if request.method == 'GET':
             workspace = Workspaces.objects.get(id=pk)
-            res_data['data']['members']=WorkspaceDetailSerializer(workspace).data
+            res_data['data']=WorkspaceDetailSerializer(workspace).data
         elif request.method == 'PUT':
             data = request.data
             UserWorkspaces.objects.filter(workspace__id=pk).delete()
-            workspace = Workspaces.objects.get(id=pk)
+
+            workspace = Workspaces.objects.get(id=pk) #리팩토링 필요
+            workspace.workspace_name = data['workspace_name']
+            workspace.save()
+
             for i in data['members_id']:
                 UserWorkspaces.objects.create(
                     user = User.objects.get(user_primary_id=i),
                     workspace=workspace
-                )
+                ).save()
             
             res_data['data'] = {'workspace_id':workspace.id}
             
         elif request.method == 'DELETE':
             Workspaces.objects.filter(id=pk).delete()
+
+    else:
+        res_data['error_code'] = 404
+        res_data['error_message'] = 'there is no workspace_id'
     return Response(res_data)
