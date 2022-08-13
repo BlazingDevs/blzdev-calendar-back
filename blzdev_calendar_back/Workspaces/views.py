@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import WorkspaceDetailSerializer,UserWorkspaceSerializer
+from .serializers import WorkspaceDetailSerializer,UserWorkspaceSerializer,WorkspaceSerializer
 from .models import Workspaces
 from Users.models import User
 
@@ -18,11 +18,11 @@ def workspaces(request):
     
     if request.method == 'GET':
         print(request.user)
-        user_workspaces = Workspaces.objects.filter(user=request.user)
+        user_workspaces = Workspaces.objects.filter(user_workspace=request.user)
         
         work_spaces = dict()
         work_spaces['count'] = user_workspaces.count()
-        work_spaces['work_space'] =UserWorkspaceSerializer(user_workspaces,many=True).data
+        work_spaces['work_space'] = WorkspaceSerializer(user_workspaces,many=True).data
         
         res_data['data']['work_spaces'] = work_spaces
     
