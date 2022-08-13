@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import Workspaces, UserWorkspaces
+from .models import Workspaces
 
 admin.site.register(Workspaces)
-admin.site.register(UserWorkspaces)
