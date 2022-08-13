@@ -7,7 +7,7 @@ class WorkspaceSerializer(serializers.ModelSerializer):
         model = Workspaces
         fields = ('id','workspace_name',)
         
-class UserWorkspaceSerializer(serializers.ModelSerializer):
+class UserWorkspaceSerializer(serializers.ModelSerializer): #지워도 될듯?
     workspace_name = serializers.ReadOnlyField(source='workspace.workspace_name')
     
     class Meta:
