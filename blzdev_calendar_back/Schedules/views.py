@@ -23,7 +23,7 @@ class ScheduleListAPI(generics.GenericAPIView, mixins.ListModelMixin, mixins.Cre
     def get_queryset(self):
         workspaces_id = self.request.GET['workspace']
         date = self.request.GET['date']
-        return Schedules.objects.filter(workspace_id_id__exact=workspaces_id, date__exact=date)
+        return Schedules.objects.filter(workspace_id__exact=workspaces_id, date__exact=date)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
