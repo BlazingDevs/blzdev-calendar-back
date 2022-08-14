@@ -13,6 +13,9 @@ class ScheduleDetailAPI(generics.GenericAPIView, mixins.ListModelMixin, mixins.R
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+    
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
