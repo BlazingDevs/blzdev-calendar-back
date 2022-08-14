@@ -5,6 +5,7 @@ from Workspaces.models import *
 from Users.models import *
 from Schedules.serializers import SchedulesSerializer, SchedulesListSerializer, SchedulesGetSerializer
 from rest_framework.response import Response
+import json
 
 
 @csrf_exempt
@@ -85,6 +86,7 @@ def ScheduleListAPI(request):
             ScheduleQuerySet), "schedule": serializer.data}
 
     elif request.method == 'POST':
+        data = json.loads(request.body)
         serializer = SchedulesSerializer(data=request.data)
 
         # workspace가 존재하지 않을 경우
@@ -94,6 +96,12 @@ def ScheduleListAPI(request):
 
             return Response(response_data)
 
+        # 존재하지 않는 member_id가 있을 경우
+        if len(User.objects.filter(user_primary_id__in=data['members_id'])) != len(data['members_id']):
+            response_data['error_code'] = 401
+            response_data['error_message'] = 'non-exist member in members_id'
+
+            return Response(response_data)
         # request 형식이 올바른지 확인
         if serializer.is_valid():
             new_schedule = serializer.save()
