@@ -5,7 +5,6 @@ from Users.models import User
 
 
 class SchedulesSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Schedules
         fields = ('id', 'schedule_name', 'workspace_id',
@@ -25,19 +24,17 @@ class SchedulesGetSerializer(serializers.ModelSerializer):
     members = serializers.SerializerMethodField()
 
     def get_members(self, obj):
-        # UserQuerySet = User.objects.values_list(
-        #     'obj__members_id', flat=True)
-        serializer = ScheduleMemberSerializer(obj, many=True)
+        member_queryset = obj.members_id.all()
+        members = {"count": member_queryset.count(), "member": ScheduleMemberSerializer(
+            member_queryset, many=True).data}
 
-        # members = {"count": 0, "member": serializer.data}
-        members = {"count": 0, "member": NULL}
-        print(obj)
         return members
 
     class Meta:
         model = Schedules
         fields = ('id', 'schedule_name', 'workspace_id',
                   'date', 'time', 'members')
+
 
 class SchedulesListSerializer(serializers.ModelSerializer):
     schedule_id = serializers.ReadOnlyField(source='id')

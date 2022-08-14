@@ -24,13 +24,11 @@ def ScheduleDetailAPI(request, schedule_id=None):
         return Response(response_data)
 
     if request.method == 'GET':
-        ScheduleQuerySet = Schedules.objects.filter(id=schedule_id)
-        serializer = SchedulesGetSerializer(ScheduleQuerySet, many=True)
+        serializer = SchedulesGetSerializer(schedule)
 
         response_data['error_code'] = 200
         response_data['error_message'] = 'get schedule'
         response_data['data'] = serializer.data
-        # {"count": len(ScheduleQuerySet), "log": serializer.data}
 
     elif request.method == 'PUT':
         serializer = SchedulesSerializer(schedule, data=request.data)
@@ -102,6 +100,7 @@ def ScheduleListAPI(request):
             response_data['error_message'] = 'non-exist member in members_id'
 
             return Response(response_data)
+
         # request 형식이 올바른지 확인
         if serializer.is_valid():
             new_schedule = serializer.save()
