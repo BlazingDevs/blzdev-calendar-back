@@ -41,7 +41,7 @@ def ScheduleDetailAPI(request, schedule_id=None):
             response_data['error_message'] = 'put schedule'
             response_data['data'] = {"schedule_id": new_schedule.id}
         else:
-            response_data['error_code'] = 401
+            response_data['error_code'] = 406 
             response_data['error_message'] = 'serialization is unvalid'
             response_data['data'] = {"schedule_id": new_schedule.id}
 
@@ -53,7 +53,7 @@ def ScheduleDetailAPI(request, schedule_id=None):
 
     # GET, PUT, DELETE 외의 method
     else:
-        response_data['error_code'] = 404
+        response_data['error_code'] = 405
         response_data['error_message'] = 'unvalid request method'
 
     return Response(response_data)
@@ -69,7 +69,7 @@ def ScheduleListAPI(request):
 
         # 존재하지 않는 workspace인 경우
         if not Workspaces.objects.filter(id=workspace_id).exists():
-            response_data['error_code'] = 401
+            response_data['error_code'] = 404
             response_data['error_message'] = 'non-exist workspace'
 
             return Response(response_data)
@@ -89,14 +89,14 @@ def ScheduleListAPI(request):
 
         # workspace가 존재하지 않을 경우
         if not Workspaces.objects.filter(id=request.GET['workspace']).exists():
-            response_data['error_code'] = 401
+            response_data['error_code'] = 404
             response_data['error_message'] = 'non-exist workspace'
 
             return Response(response_data)
 
         # 존재하지 않는 member_id가 있을 경우
         if len(User.objects.filter(user_primary_id__in=data['members_id'])) != len(data['members_id']):
-            response_data['error_code'] = 401
+            response_data['error_code'] = 404
             response_data['error_message'] = 'non-exist member in members_id'
 
             return Response(response_data)
@@ -109,12 +109,12 @@ def ScheduleListAPI(request):
             response_data['error_message'] = 'post schedule'
             response_data['data'] = {"schedule_id": new_schedule.id}
         else:
-            response_data['error_code'] = 401
+            response_data['error_code'] = 400 
             response_data['error_message'] = 'serialization is unvalid'
 
     # GET, POST 외의 method
     else:
-        response_data['error_code'] = 404
+        response_data['error_code'] = 405
         response_data['error_message'] = 'unvalid request method'
 
     return Response(response_data)
