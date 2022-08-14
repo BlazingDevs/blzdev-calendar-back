@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import WorkspaceDetailSerializer,UserWorkspaceSerializer,WorkspaceSerializer
+from .serializers import WorkspaceDetailSerializer,WorkspaceSerializer
 from .models import Workspaces
 from Users.models import User
 
@@ -61,12 +61,6 @@ def workspace_detail(request,pk=None):
             for i in data['members_id']:
                 workspace.user_workspace.add(i)
             workspace.save()
-
-            for i in data['members_id']:
-                Workspaces.objects.create(
-                    user = User.objects.get(user_primary_id=i),
-                    workspace=workspace
-                ).save()
             
             res_data['data'] = {'workspace_id':workspace.id}
             

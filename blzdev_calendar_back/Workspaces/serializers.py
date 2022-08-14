@@ -7,13 +7,6 @@ class WorkspaceSerializer(serializers.ModelSerializer):
         model = Workspaces
         fields = ('id','workspace_name',)
         
-class UserWorkspaceSerializer(serializers.ModelSerializer): #지워도 될듯?
-    workspace_name = serializers.ReadOnlyField(source='workspace.workspace_name')
-    
-    class Meta:
-        model = Workspaces
-        fields = ('workspace_id','workspace_name',)
-        
 class WorkspaceUserSerializer(serializers.ModelSerializer):
     user_id = serializers.ReadOnlyField(source='user_primary_id')
     class Meta:
