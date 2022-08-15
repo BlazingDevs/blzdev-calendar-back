@@ -1,8 +1,8 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import WorkspaceDetailSerializer,UserWorkspaceSerializer
-from .models import Workspaces,UserWorkspaces
+from .serializers import WorkspaceDetailSerializer,WorkspaceSerializer
+from .models import Workspaces
 from Users.models import User
 
 
@@ -18,11 +18,11 @@ def workspaces(request):
     
     if request.method == 'GET':
         print(request.user)
-        user_workspaces = UserWorkspaces.objects.filter(user=request.user)
+        user_workspaces = Workspaces.objects.filter(user_workspace=request.user)
         
         work_spaces = dict()
         work_spaces['count'] = user_workspaces.count()
-        work_spaces['work_space'] =UserWorkspaceSerializer(user_workspaces,many=True).data
+        work_spaces['work_space'] = WorkspaceSerializer(user_workspaces,many=True).data
         
         res_data['data']['work_spaces'] = work_spaces
     
@@ -34,10 +34,8 @@ def workspaces(request):
             workspace_name=data['workspace_name']
         )
         for i in data['members_id']:
-            UserWorkspaces.objects.create(
-                user = User.objects.get(user_primary_id=i),
-                workspace=workspace
-            )
+            workspace.user_workspace.add(i)
+        workspace.save()
         res_data['data'] = {'workspace_id':workspace.id}
         
     return Response(res_data)
@@ -57,17 +55,12 @@ def workspace_detail(request,pk=None):
             res_data['data']=WorkspaceDetailSerializer(workspace).data
         elif request.method == 'PUT':
             data = request.data
-            UserWorkspaces.objects.filter(workspace__id=pk).delete()
 
-            workspace = Workspaces.objects.get(id=pk) #리팩토링 필요
-            workspace.workspace_name = data['workspace_name']
-            workspace.save()
-
+            workspace = Workspaces.objects.get(id=pk)   # 리팩토링 필요
+            workspace.user_workspace.clear()
             for i in data['members_id']:
-                UserWorkspaces.objects.create(
-                    user = User.objects.get(user_primary_id=i),
-                    workspace=workspace
-                ).save()
+                workspace.user_workspace.add(i)
+            workspace.save()
             
             res_data['data'] = {'workspace_id':workspace.id}
             
