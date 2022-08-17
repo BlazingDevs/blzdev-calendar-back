@@ -22,9 +22,9 @@ def workspaces(request):
         
         work_spaces = dict()
         work_spaces['count'] = user_workspaces.count()
-        work_spaces['work_space'] = WorkspaceSerializer(user_workspaces,many=True).data
+        work_spaces['workspace'] = WorkspaceSerializer(user_workspaces,many=True).data
         
-        res_data['data']['work_spaces'] = work_spaces
+        res_data['data']['workspaces'] = work_spaces
     
     elif request.method == 'POST':
         

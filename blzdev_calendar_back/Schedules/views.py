@@ -88,7 +88,8 @@ def ScheduleListAPI(request):
         serializer = SchedulesSerializer(data=request.data)
 
         # workspace가 존재하지 않을 경우
-        if not Workspaces.objects.filter(id=request.GET['workspace']).exists():
+        # if not Workspaces.objects.filter(id=request.GET['workspace']).exists():
+        if not Workspaces.objects.filter(id=data['workspace_id']).exists():
             response_data['error_code'] = 404
             response_data['error_message'] = 'non-exist workspace'
 

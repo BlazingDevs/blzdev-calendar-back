@@ -22,6 +22,7 @@ class ScheduleMemberSerializer(serializers.ModelSerializer):
 class SchedulesGetSerializer(serializers.ModelSerializer):
     # Schedules 모델에 없는 새로운 members field를 추가함.
     members = serializers.SerializerMethodField()
+    schedule_id = serializers.ReadOnlyField(source='id')
 
     def get_members(self, obj):
         member_queryset = obj.members_id.all()
@@ -32,7 +33,7 @@ class SchedulesGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Schedules
-        fields = ('id', 'schedule_name', 'workspace_id',
+        fields = ('schedule_id', 'schedule_name', 'workspace_id',
                   'date', 'time', 'members')
 
 
@@ -41,4 +42,4 @@ class SchedulesListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Schedules
-        fields = ('workspace_id', 'schedule_id', 'schedule_name', 'date')
+        fields = ('workspace_id', 'schedule_id', 'schedule_name', 'date','time')
